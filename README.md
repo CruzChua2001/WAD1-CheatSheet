@@ -5,6 +5,7 @@ Lightweight local search for Web Application Development (Node, Express, HTML, J
 ## Run
 
 ```bash
+npm install -g vite
 npm install
 npm run dev
 ```
