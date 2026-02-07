@@ -148,6 +148,22 @@ export const cheatSheetData = [
     returnType: 'boolean',
     details: 'typeof [] is "object". Array.isArray([]) is true, Array.isArray({}) is false. Use for reliable array check.',
   },
+  {
+    category: 'JS Types & Quirks',
+    item: 'Optional chaining (?.)',
+    syntax: 'obj?.prop  |  obj?.method()',
+    description: 'Safely access nested property; short-circuits if null/undefined.',
+    returnType: 'Property value or undefined',
+    details: 'obj?.prop returns undefined if obj is null/undefined; otherwise obj.prop. Avoids "Cannot read property of undefined".',
+  },
+  {
+    category: 'JS Types & Quirks',
+    item: 'Nullish coalescing (??)',
+    syntax: 'value ?? default',
+    description: 'Use default only when value is null or undefined.',
+    returnType: 'value or default',
+    details: '?? returns right side only when left is null or undefined. Unlike ||, 0 and "" are kept. Use for fallbacks.',
+  },
 
   // ========== JS Variables ==========
   {
@@ -287,6 +303,22 @@ export const cheatSheetData = [
     description: 'Skips to next iteration of the current loop.',
     returnType: 'N/A',
     details: 'continue skips rest of loop body for current iteration. In for loop, update expression still runs.',
+  },
+  {
+    category: 'JS Loops',
+    item: 'switch statement',
+    syntax: 'switch (x) { case "a": ... break; default: ... }',
+    description: 'Multi-way branch on value; use break to avoid fall-through.',
+    returnType: 'N/A',
+    details: 'switch compares with ===. Without break, execution falls through to next case. default runs if no match.',
+  },
+  {
+    category: 'JS Loops',
+    item: 'if / else',
+    syntax: 'if (condition) { } else if (c2) { } else { }',
+    description: 'Conditional execution.',
+    returnType: 'N/A',
+    details: 'condition is evaluated; truthy runs first block. else if and else optional. Use {} for multiple statements.',
   },
 
   // ========== JS Arrays & Strings ==========
@@ -530,6 +562,28 @@ export const cheatSheetData = [
     returnType: 'New string',
     details: 'substring and slice similar; slice can use negative indices. substr is deprecated. All return new string.',
   },
+  {
+    category: 'JS Arrays & Strings',
+    item: 'fill',
+    syntax: 'arr.fill(value, start, end)',
+    description: 'Fills array with value (optionally from start to end).',
+    returnType: 'Same array (mutated)',
+    details: 'Mutates array. start/end optional; end exclusive. Returns the array. Useful for initializing.' },
+  {
+    category: 'JS Arrays & Strings',
+    item: 'copyWithin',
+    syntax: 'arr.copyWithin(target, start, end)',
+    description: 'Copies portion of array to another position within same array.',
+    returnType: 'Same array (mutated)',
+    details: 'Mutates array. target = where to copy to; start/end = source range (end exclusive). Returns the array.',
+  },
+  {
+    category: 'JS Arrays & Strings',
+    item: 'toString (array)', syntax: 'arr.toString()',
+    description: 'Returns string of array elements joined by comma.',
+    returnType: 'string',
+    details: 'Same as arr.join(). Calls toString on each element. Empty array returns "".',
+  },
 
   // ========== HTML (with tag for drill-down) ==========
   { category: 'HTML', tag: 'form', item: 'Form action', syntax: '<form action="url">', description: 'URL where form data is submitted.', returnType: 'N/A', details: 'action attribute: the endpoint or page that receives the form submission (e.g. /submit or script URL).' },
@@ -601,6 +655,80 @@ export const cheatSheetData = [
   { category: 'HTML', tag: 'attributes', item: 'data-* attributes', syntax: 'data-id="123"', description: 'Custom data attributes for JS; no semantic meaning.', returnType: 'N/A', details: 'data-* attributes are valid HTML5. Access in JS via element.dataset.id (data-id).' },
   { category: 'HTML', tag: 'attributes', item: 'title', syntax: 'title="tooltip text"', description: 'Tooltip shown on hover.', returnType: 'N/A', details: 'title shows as native tooltip. Do not rely for critical info; not available on keyboard-only or touch.' },
   { category: 'HTML', tag: 'attributes', item: 'tabindex', syntax: 'tabindex="0"  or  tabindex="-1"', description: 'Control tab order and focusability.', returnType: 'N/A', details: 'tabindex="0" includes in natural order; -1 allows programmatic focus but not tab. Positive values avoid.' },
+
+  { category: 'HTML', tag: 'a', item: 'anchor (link)', syntax: '<a href="url">text</a>', description: 'Hyperlink to URL or in-page anchor.', returnType: 'N/A', details: 'href is destination (URL or #id). Click navigates. Use target and rel for external links.' },
+  { category: 'HTML', tag: 'a', item: 'href attribute', syntax: 'href="url"  or  href="#section"', description: 'Link destination URL or fragment.', returnType: 'N/A', details: 'Absolute: https://... Relative: ./page, ../page. Fragment: #id for same-page anchor. Omit for placeholder link.' },
+  { category: 'HTML', tag: 'a', item: 'target attribute', syntax: 'target="_blank"  |  target="_self"', description: 'Where to open the link.', returnType: 'N/A', details: '_blank = new tab/window. _self = same (default). Use rel="noopener noreferrer" with _blank for security.' },
+  { category: 'HTML', tag: 'a', item: 'rel attribute (links)', syntax: 'rel="noopener noreferrer"', description: 'Relationship / security for links.', returnType: 'N/A', details: 'noopener prevents new page from accessing window.opener. noreferrer hides referrer. Use with target="_blank".' },
+  { category: 'HTML', tag: 'a', item: 'download attribute', syntax: 'download  or  download="filename"', description: 'Hint to download linked resource instead of navigate.', returnType: 'N/A', details: 'download triggers download; optional value suggests filename. Same-origin only for custom filename.' },
+
+  { category: 'HTML', tag: 'img', item: 'img element', syntax: '<img src="url" alt="description">', description: 'Embed an image.', returnType: 'N/A', details: 'src = image URL (required). alt = text alternative (required for accessibility).' },
+  { category: 'HTML', tag: 'img', item: 'img src and alt', syntax: '<img src="photo.jpg" alt="A cat">', description: 'Image source and alternative text.', returnType: 'N/A', details: 'src can be relative (./img/photo.jpg) or absolute. alt shown if image fails or for screen readers; keep descriptive.' },
+  { category: 'HTML', tag: 'img', item: 'img width and height', syntax: 'width="200" height="100"', description: 'Image dimensions (optional; use CSS for layout).', returnType: 'N/A', details: 'width/height in pixels. Setting both reserves space and reduces layout shift (CLS). Prefer CSS for responsive.' },
+  { category: 'HTML', tag: 'img', item: 'img loading', syntax: 'loading="lazy"', description: 'Defer loading off-screen images.', returnType: 'N/A', details: 'loading="lazy" loads image when near viewport. loading="eager" (default) loads immediately. Helps performance.' },
+
+  { category: 'HTML', tag: 'div', item: 'div element', syntax: '<div>...</div>', description: 'Block-level generic container.', returnType: 'N/A', details: 'div has no semantic meaning. Use for layout/grouping when no semantic tag fits. Block by default.' },
+  { category: 'HTML', tag: 'span', item: 'span element', syntax: '<span>...</span>', description: 'Inline generic container.', returnType: 'N/A', details: 'span has no semantic meaning. Use to wrap inline content for styling or JS. Inline by default.' },
+  { category: 'HTML', tag: 'div', item: 'div vs span', syntax: 'div = block  |  span = inline', description: 'div is block; span is inline.', returnType: 'N/A', details: 'div starts on new line and takes full width. span stays inline with text. Use for grouping without semantics.' },
+
+  { category: 'HTML', tag: 'list', item: 'ul unordered list', syntax: '<ul><li>item</li></ul>', description: 'Bulleted list.', returnType: 'N/A', details: 'ul = unordered list. li = list item. Use for bullet points. Nest ul/ol inside li for sublists.' },
+  { category: 'HTML', tag: 'list', item: 'ol ordered list', syntax: '<ol><li>first</li><li>second</li></ol>', description: 'Numbered list.', returnType: 'N/A', details: 'ol = ordered list. li = list item. Numbers auto-increment. Use start attribute to change start number.' },
+  { category: 'HTML', tag: 'list', item: 'li list item', syntax: '<li>content</li>', description: 'One item in ul or ol.', returnType: 'N/A', details: 'li must be direct child of ul, ol, or menu. Can contain block or inline content, including nested lists.' },
+  { category: 'HTML', tag: 'list', item: 'ol start and type', syntax: 'start="5"  type="A"', description: 'Ordered list start number and numbering style.', returnType: 'N/A', details: 'start = first number. type = 1 (numbers), A/a (letters), I/i (Roman). CSS list-style-type preferred for styling.' },
+
+  { category: 'HTML', tag: 'button', item: 'button element', syntax: '<button type="submit">Send</button>', description: 'Clickable button; can contain content.', returnType: 'N/A', details: 'type: submit (submit form), button (no default), reset (reset form). Prefer over input type=submit for styling.' },
+  { category: 'HTML', tag: 'button', item: 'button type', syntax: 'type="submit"  |  type="button"  |  type="reset"', description: 'Button behavior.', returnType: 'N/A', details: 'submit = submit form. button = no default (use for JS). reset = reset form fields. Default in form is submit.' },
+  { category: 'HTML', tag: 'button', item: 'button vs input', syntax: '<button>Label</button>  vs  <input type="submit" value="Label">', description: 'button can wrap content; input cannot.', returnType: 'N/A', details: 'button can contain HTML (e.g. icon + text). input value is plain text only. Use button for flexible styling.' },
+
+  { category: 'HTML', tag: 'semantic', item: 'header', syntax: '<header>...</header>', description: 'Intro or nav block for page/section.', returnType: 'N/A', details: 'header typically holds logo, nav, or section title. Can be used multiple times (e.g. per article).' },
+  { category: 'HTML', tag: 'semantic', item: 'footer', syntax: '<footer>...</footer>', description: 'Footer for page or section.', returnType: 'N/A', details: 'footer typically holds copyright, links, meta. Can be used multiple times (e.g. per section).' },
+  { category: 'HTML', tag: 'semantic', item: 'nav', syntax: '<nav>...</nav>', description: 'Navigation links.', returnType: 'N/A', details: 'nav wraps major navigation (menus, TOC). Use for accessibility and semantics. Not every link group needs nav.' },
+  { category: 'HTML', tag: 'semantic', item: 'main', syntax: '<main>...</main>', description: 'Main content of the page.', returnType: 'N/A', details: 'main should be one per page (or hidden duplicates). Skip nav/header/footer. Landmark for accessibility.' },
+  { category: 'HTML', tag: 'semantic', item: 'section', syntax: '<section>...</section>', description: 'Thematic grouping of content.', returnType: 'N/A', details: 'section groups related content; usually has heading. Use when content has its own outline.' },
+  { category: 'HTML', tag: 'semantic', item: 'article', syntax: '<article>...</article>', description: 'Self-contained content (e.g. post, card).', returnType: 'N/A', details: 'article is for content that could stand alone (blog post, comment). Can nest (e.g. comments in article).' },
+  { category: 'HTML', tag: 'semantic', item: 'aside', syntax: '<aside>...</aside>', description: 'Tangentially related content (sidebar, pullquote).', returnType: 'N/A', details: 'aside is for content indirectly related to main (sidebars, ads, related links).' },
+
+  { category: 'HTML', tag: 'head', item: 'title', syntax: '<title>Page Title</title>', description: 'Document title (tab, bookmarks).', returnType: 'N/A', details: 'title goes in head. Shown in browser tab and search results. One per page.' },
+  { category: 'HTML', tag: 'head', item: 'meta charset', syntax: '<meta charset="UTF-8">', description: 'Character encoding for the document.', returnType: 'N/A', details: 'charset="UTF-8" in head for correct character display. Use early in head.' },
+  { category: 'HTML', tag: 'head', item: 'meta viewport', syntax: '<meta name="viewport" content="width=device-width, initial-scale=1">', description: 'Mobile viewport scaling.', returnType: 'N/A', details: 'viewport controls width and zoom on mobile. width=device-width, initial-scale=1 is common for responsive.' },
+  { category: 'HTML', tag: 'head', item: 'meta description', syntax: '<meta name="description" content="...">', description: 'Short description for search/social.', returnType: 'N/A', details: 'description often used in search results. Keep concise (e.g. 150–160 chars).' },
+  { category: 'HTML', tag: 'head', item: 'link stylesheet', syntax: '<link rel="stylesheet" href="style.css">', description: 'Link external CSS.', returnType: 'N/A', details: 'rel="stylesheet", href = path to CSS. Placed in head. Multiple link tags for multiple stylesheets.' },
+  { category: 'HTML', tag: 'head', item: 'script tag', syntax: '<script src="app.js"></script>  or  <script>code</script>', description: 'Load or inline JavaScript.', returnType: 'N/A', details: 'src = external script (blocking by default). No src = inline script. Use defer or async for non-blocking load.' },
+  { category: 'HTML', tag: 'head', item: 'script defer and async', syntax: '<script src="app.js" defer></script>', description: 'When to run external script.', returnType: 'N/A', details: 'defer = run after HTML parsed, in order. async = run when loaded, order not guaranteed. Prefer defer for app scripts.' },
+
+  { category: 'HTML', tag: 'text', item: 'p paragraph', syntax: '<p>...</p>', description: 'Paragraph of text.', returnType: 'N/A', details: 'p is block-level. One paragraph per p. Do not nest block elements inside p.' },
+  { category: 'HTML', tag: 'text', item: 'h1 to h6 headings', syntax: '<h1>...</h1>  through  <h6>...</h6>', description: 'Heading levels; one h1 per page.', returnType: 'N/A', details: 'h1 = main title (one per page). h2–h6 = subheadings. Order matters for outline and accessibility.' },
+  { category: 'HTML', tag: 'text', item: 'strong and em', syntax: '<strong>bold</strong>  <em>emphasis</em>', description: 'Strong importance and emphasis.', returnType: 'N/A', details: 'strong = strong importance (bold by default). em = emphasis (italic by default). Semantic; use over b/i when meaning matters.' },
+  { category: 'HTML', tag: 'text', item: 'br line break', syntax: '<br>  or  <br />', description: 'Line break within text.', returnType: 'N/A', details: 'br is void (no content). Use sparingly; prefer block elements (p, div) or CSS for spacing.' },
+  { category: 'HTML', tag: 'text', item: 'hr horizontal rule', syntax: '<hr>  or  <hr />', description: 'Thematic break (horizontal line).', returnType: 'N/A', details: 'hr is void. Semantic break between sections. Styled as line by default; override with CSS.' },
+
+  { category: 'HTML', tag: 'details', item: 'details and summary', syntax: '<details><summary>Click to expand</summary>...</details>', description: 'Collapsible disclosure widget.', returnType: 'N/A', details: 'details wraps content; summary is the visible toggle. open attribute shows expanded by default. No JS required.' },
+  { category: 'HTML', tag: 'details', item: 'summary element', syntax: '<summary>Title</summary>', description: 'Visible label for a details block.', returnType: 'N/A', details: 'First child of details. Click toggles open/closed. Only one summary per details.' },
+
+  { category: 'HTML', tag: 'figure', item: 'figure element', syntax: '<figure>...</figure>', description: 'Self-contained content (image, diagram, code).', returnType: 'N/A', details: 'Groups content with optional figcaption. Use for images with captions, code blocks, diagrams.' },
+  { category: 'HTML', tag: 'figure', item: 'figcaption', syntax: '<figure><img><figcaption>Caption</figcaption></figure>', description: 'Caption for a figure.', returnType: 'N/A', details: 'figcaption is first or last child of figure. Describes the figure content.' },
+
+  { category: 'HTML', tag: 'quote', item: 'blockquote', syntax: '<blockquote cite="url">...</blockquote>', description: 'Block of quoted content.', returnType: 'N/A', details: 'blockquote = extended quote (block). cite attribute = source URL. Use p inside for paragraphs.' },
+  { category: 'HTML', tag: 'quote', item: 'cite element', syntax: '<cite>Source</cite>', description: 'Citation or reference (e.g. title, author).', returnType: 'N/A', details: 'cite is inline. Use for book title, author, URL. Renders italic by default.' },
+  { category: 'HTML', tag: 'quote', item: 'q inline quote', syntax: '<q>short quote</q>', description: 'Short inline quotation.', returnType: 'N/A', details: 'q = inline quote. Browser may add quotes. cite attribute for source URL.' },
+
+  { category: 'HTML', tag: 'code', item: 'pre element', syntax: '<pre>...</pre>', description: 'Preformatted text (whitespace preserved).', returnType: 'N/A', details: 'pre keeps spaces and line breaks. Use for code, ASCII art. Monospace by default.' },
+  { category: 'HTML', tag: 'code', item: 'code element', syntax: '<code>snippet</code>', description: 'Inline or block code snippet.', returnType: 'N/A', details: 'code = code (inline). Use <pre><code> for multi-line code. Monospace by default.' },
+  { category: 'HTML', tag: 'code', item: 'pre and code together', syntax: '<pre><code>const x = 1;</code></pre>', description: 'Multi-line code block.', returnType: 'N/A', details: 'pre preserves formatting; code marks as code. Escape < and > as &lt; and &gt; inside.' },
+
+  { category: 'HTML', tag: 'dl', item: 'dl definition list', syntax: '<dl><dt>Term</dt><dd>Definition</dd></dl>', description: 'Definition list (term + definition pairs).', returnType: 'N/A', details: 'dl = definition list. dt = term. dd = definition. Use for glossaries, key-value pairs.' },
+  { category: 'HTML', tag: 'dl', item: 'dt and dd', syntax: '<dt>Term</dt><dd>Description</dd>', description: 'Term and definition in a dl.', returnType: 'N/A', details: 'dt = definition term. dd = definition description. Multiple dd per dt allowed.' },
+
+  { category: 'HTML', tag: 'media', item: 'video element', syntax: '<video src="clip.mp4" controls></video>', description: 'Embed video.', returnType: 'N/A', details: 'src or source children. controls = play/pause. autoplay, muted, loop, poster (thumbnail). Optional <track> for captions.' },
+  { category: 'HTML', tag: 'media', item: 'audio element', syntax: '<audio src="sound.mp3" controls></audio>', description: 'Embed audio.', returnType: 'N/A', details: 'src or source children. controls = play/pause. autoplay, muted, loop. No visual by default.' },
+  { category: 'HTML', tag: 'media', item: 'source element', syntax: '<source src="file.mp4" type="video/mp4">', description: 'Alternative source for video/audio.', returnType: 'N/A', details: 'Use inside video or audio. src and type (MIME). Browser picks first supported. For multiple formats.' },
+
+  { category: 'HTML', tag: 'other', item: 'address', syntax: '<address>Contact info</address>', description: 'Contact information for page or article.', returnType: 'N/A', details: 'address = contact (email, address, etc.). Usually in footer. Do not use for arbitrary addresses.' },
+  { category: 'HTML', tag: 'other', item: 'mark', syntax: '<mark>highlighted</mark>', description: 'Highlighted or marked text.', returnType: 'N/A', details: 'mark = highlighted (e.g. search match). Yellow background by default. Semantic.' },
+  { category: 'HTML', tag: 'other', item: 'abbr abbreviation', syntax: '<abbr title="World Wide Web">WWW</abbr>', description: 'Abbreviation or acronym; title for full form.', returnType: 'N/A', details: 'title attribute = full expansion. Dotted underline by default. Good for accessibility.' },
+  { category: 'HTML', tag: 'other', item: 'progress', syntax: '<progress value="70" max="100">70%</progress>', description: 'Progress bar (task completion).', returnType: 'N/A', details: 'value = current; max = total. Omit value for indeterminate. Content is fallback.' },
+  { category: 'HTML', tag: 'other', item: 'datalist', syntax: '<input list="suggestions"><datalist id="suggestions"><option value="A">', description: 'Suggestions for input (autocomplete).', returnType: 'N/A', details: 'datalist id linked by input list="id". option value = suggestion. User can type or pick.' },
+  { category: 'HTML', tag: 'other', item: 'iframe', syntax: '<iframe src="url" title="Description"></iframe>', description: 'Embed another page (inline frame).', returnType: 'N/A', details: 'src = URL to embed. title required for accessibility. width, height, sandbox for security.' },
 
   // ========== Node.js & Modules ==========
   {
@@ -820,6 +948,63 @@ export const cheatSheetData = [
     description: 'Mount middleware or router for all (or path-prefixed) requests.',
     returnType: 'N/A',
     details: 'app.use() runs for every request (or every request to path). Order matters; put body parsers and static before routes.',
+  },
+
+  {
+    category: 'Express.js',
+    item: 'Simple API setup (Express server)',
+    syntax: 'const express = require("express");\nconst app = express();\nconst PORT = 3000;\napp.use(express.json());\napp.use(express.urlencoded({ extended: true }));\napp.listen(PORT, () => console.log(`Listening on ${PORT}`));',
+    description: 'Minimal Express server with JSON and form body parsing.',
+    returnType: 'N/A',
+    details: 'Require express, create app, add express.json() and express.urlencoded for POST body. Call app.listen(PORT). Put middleware before routes.',
+  },
+  {
+    category: 'Express.js',
+    item: 'Simple GET API example',
+    syntax: 'app.get("/api/items", (req, res) => {\n  const name = req.query.name;\n  res.json({ message: "Hello", name: name || "guest" });\n});',
+    description: 'GET route that reads query params and returns JSON.',
+    returnType: 'N/A',
+    details: 'GET /api/items?name=Alice → req.query.name is "Alice". Use res.json(obj) to send JSON. No body parser needed for GET.',
+  },
+  {
+    category: 'Express.js',
+    item: 'Simple GET API with route param',
+    syntax: 'app.get("/api/items/:id", (req, res) => {\n  const id = req.params.id;\n  res.json({ id });\n});',
+    description: 'GET route with URL parameter (e.g. /api/items/5).',
+    returnType: 'N/A',
+    details: 'GET /api/items/5 → req.params.id is "5". Use :id in path; access via req.params.id. Params are always strings.',
+  },
+  {
+    category: 'Express.js',
+    item: 'Simple POST API example (JSON)',
+    syntax: 'app.post("/api/items", (req, res) => {\n  const body = req.body;\n  res.status(201).json({ success: true, data: body });\n});',
+    description: 'POST route that reads JSON body and returns 201 + JSON.',
+    returnType: 'N/A',
+    details: 'Requires app.use(express.json()) before routes. Client sends Content-Type: application/json. req.body is parsed object. Use res.status(201) for created.',
+  },
+  {
+    category: 'Express.js',
+    item: 'Simple POST API example (form)',
+    syntax: 'app.post("/api/items", (req, res) => {\n  const name = req.body.name;\n  res.redirect("/");\n});',
+    description: 'POST route that reads form data (e.g. from HTML form).',
+    returnType: 'N/A',
+    details: 'Requires app.use(express.urlencoded({ extended: true })). Form submit sends application/x-www-form-urlencoded. req.body has name=value pairs.',
+  },
+  {
+    category: 'Express.js',
+    item: 'Full simple API (GET + POST)',
+    syntax: 'const express = require("express");\nconst app = express();\napp.use(express.json());\napp.get("/api/data", (req, res) => res.json({ items: [] }));\napp.post("/api/data", (req, res) => { res.status(201).json({ ok: true }); });\napp.listen(3000);',
+    description: 'Complete minimal API: one GET and one POST route.',
+    returnType: 'N/A',
+    details: 'Order: require express, create app, use json middleware, define GET (read) and POST (create), then listen. GET uses req.query; POST uses req.body.',
+  },
+  {
+    category: 'Express.js',
+    item: '404 handler for API',
+    syntax: 'app.use((req, res) => {\n  res.status(404).json({ error: "Not found" });\n});',
+    description: 'Catch-all for unknown routes; return 404 JSON.',
+    returnType: 'N/A',
+    details: 'Put after all routes. No path = matches any request that did not match earlier routes. Use for APIs so client gets JSON, not HTML.',
   },
 
   // ========== EJS Templating ==========
