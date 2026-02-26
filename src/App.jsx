@@ -16,6 +16,8 @@ const JS_SUBCATEGORIES = [
   { id: 'JS Variables', label: 'Variables' },
   { id: 'JS Arrays & Strings', label: 'Arrays & Strings' },
   { id: 'JS Loops', label: 'Loops' },
+  { id: 'Math & Number', label: 'Math & Number' },
+  { id: 'Algorithm', label: 'Algorithm' },
 ]
 const NODE_SUBCATEGORIES = [
   { id: 'Node.js & Modules', label: 'Node.js & Modules' },
@@ -25,8 +27,15 @@ const EJS_SUBCATEGORIES = [{ id: 'EJS Templating', label: 'EJS Templating' }]
 
 function useHtmlTags() {
   return useMemo(() => {
-    const tags = [...new Set(cheatSheetData.filter((i) => i.tag).map((i) => i.tag))]
+    const tags = [...new Set(cheatSheetData.filter((i) => i.tag && i.category === 'HTML').map((i) => i.tag))]
     return tags.map((id) => ({ id, label: id.charAt(0).toUpperCase() + id.slice(1) }))
+  }, [])
+}
+
+function useAlgorithmTypes() {
+  return useMemo(() => {
+    const types = [...new Set(cheatSheetData.filter((i) => i.category === 'Algorithm' && i.algorithmType).map((i) => i.algorithmType))]
+    return types.sort().map((id) => ({ id, label: id }))
   }, [])
 }
 
@@ -37,15 +46,19 @@ function fuzzyMatch(text, query) {
   return t.includes(q)
 }
 
-function filterData(data, query, mainCategory, subcategoryOrTag) {
+function filterData(data, query, mainCategory, subcategoryOrTag, algorithmTypeFilter) {
   let filtered = data
 
   // Filter by main category and subcategory/tag
   if (mainCategory === 'JavaScript' && subcategoryOrTag) {
     filtered = filtered.filter((item) => item.category === subcategoryOrTag)
+    // When Algorithm is selected, further filter by algorithm type if chosen
+    if (subcategoryOrTag === 'Algorithm' && algorithmTypeFilter) {
+      filtered = filtered.filter((item) => item.algorithmType === algorithmTypeFilter)
+    }
   } else if (mainCategory === 'JavaScript') {
     filtered = filtered.filter((item) =>
-      ['JS Types & Quirks', 'JS Variables', 'JS Arrays & Strings', 'JS Loops'].includes(item.category)
+      ['JS Types & Quirks', 'JS Variables', 'JS Arrays & Strings', 'JS Loops', 'Math & Number', 'Algorithm'].includes(item.category)
     )
   } else if (mainCategory === 'HTML' && subcategoryOrTag) {
     filtered = filtered.filter((item) => item.category === 'HTML' && item.tag === subcategoryOrTag)
@@ -83,7 +96,9 @@ function Card({ item }) {
     <article className="card">
       <div className="card-header">
         <span className="category">{item.category}</span>
-        {item.tag && <span className="tag">{item.tag}</span>}
+        {(item.tag || (item.category === 'Algorithm' && item.algorithmType)) && (
+          <span className="tag">{item.tag || item.algorithmType}</span>
+        )}
         <strong className="item">{item.item}</strong>
       </div>
       {item.syntax && (
@@ -105,22 +120,35 @@ export default function App() {
   const [query, setQuery] = useState('')
   const [mainCategory, setMainCategory] = useState(null)
   const [subcategoryOrTag, setSubcategoryOrTag] = useState(null)
+  const [algorithmTypeFilter, setAlgorithmTypeFilter] = useState(null)
 
   const htmlTags = useHtmlTags()
+  const algorithmTypes = useAlgorithmTypes()
 
   const results = useMemo(
-    () => filterData(cheatSheetData, query, mainCategory, subcategoryOrTag),
-    [query, mainCategory, subcategoryOrTag]
+    () => filterData(cheatSheetData, query, mainCategory, subcategoryOrTag, algorithmTypeFilter),
+    [query, mainCategory, subcategoryOrTag, algorithmTypeFilter]
   )
 
   const showSubcategories = mainCategory === 'JavaScript' && JS_SUBCATEGORIES.length
   const showHtmlTags = mainCategory === 'HTML' && htmlTags.length
   const showNodeSubcategories = mainCategory === 'Node & Express' && NODE_SUBCATEGORIES.length
   const showEjsSubcategories = mainCategory === 'EJS' && EJS_SUBCATEGORIES.length
+  const showAlgorithmTypes = mainCategory === 'JavaScript' && subcategoryOrTag === 'Algorithm' && algorithmTypes.length > 0
 
   const handleMainCategory = (id) => {
     setMainCategory(id)
     setSubcategoryOrTag(null)
+    setAlgorithmTypeFilter(null)
+  }
+
+  const handleSubcategory = (id) => {
+    setSubcategoryOrTag(subcategoryOrTag === id ? null : id)
+    if (id !== 'Algorithm') setAlgorithmTypeFilter(null)
+  }
+
+  const handleAlgorithmType = (type) => {
+    setAlgorithmTypeFilter(algorithmTypeFilter === type ? null : type)
   }
 
   return (
@@ -160,9 +188,32 @@ export default function App() {
                 key={s.id}
                 type="button"
                 className={`nav-btn sub ${subcategoryOrTag === s.id ? 'active' : ''}`}
-                onClick={() => setSubcategoryOrTag(subcategoryOrTag === s.id ? null : s.id)}
+                onClick={() => handleSubcategory(s.id)}
               >
                 {s.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {showAlgorithmTypes && (
+          <div className="subcategories">
+            <span className="sub-label">Algorithm type:</span>
+            <button
+              type="button"
+              className={`nav-btn sub ${algorithmTypeFilter === null ? 'active' : ''}`}
+              onClick={() => setAlgorithmTypeFilter(null)}
+            >
+              All
+            </button>
+            {algorithmTypes.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                className={`nav-btn sub ${algorithmTypeFilter === t.id ? 'active' : ''}`}
+                onClick={() => handleAlgorithmType(t.id)}
+              >
+                {t.label}
               </button>
             ))}
           </div>
