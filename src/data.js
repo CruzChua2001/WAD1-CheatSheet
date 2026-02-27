@@ -585,6 +585,56 @@ export const cheatSheetData = [
     details: 'Same as arr.join(). Calls toString on each element. Empty array returns "".',
   },
 
+  // ========== JS Regex & Character ==========
+  {
+    category: 'JS Regex & Character',
+    item: 'isNum(char)',
+    syntax: 'function isNum(char) {\n  return /^[0-9]$/.test(char);\n}\n// or: char.length === 1 && char >= "0" && char <= "9"',
+    description: 'Check if character is a digit (0–9).',
+    returnType: 'boolean',
+    details: 'Use /^[0-9]$/ so exactly one character is tested. For full string of digits use /^[0-9]+$/.',
+  },
+  {
+    category: 'JS Regex & Character',
+    item: 'isAlpha(char)',
+    syntax: 'function isAlpha(char) {\n  return /^[a-zA-Z]$/.test(char);\n}\n// or: /^[A-Za-z]$/.test(char)',
+    description: 'Check if character is a letter (a–z or A–Z).',
+    returnType: 'boolean',
+    details: 'Single character only. For Unicode letters use /^\\p{L}$/u (if supported).',
+  },
+  {
+    category: 'JS Regex & Character',
+    item: 'isUpper(char)',
+    syntax: 'function isUpper(char) {\n  return /^[A-Z]$/.test(char);\n}\n// or: char === char.toUpperCase() && char !== char.toLowerCase()',
+    description: 'Check if character is uppercase (A–Z).',
+    returnType: 'boolean',
+    details: 'Regex /^[A-Z]$/ for one uppercase letter. toUpperCase/toLowerCase trick works for any script.',
+  },
+  {
+    category: 'JS Regex & Character',
+    item: 'isLower(char)',
+    syntax: 'function isLower(char) {\n  return /^[a-z]$/.test(char);\n}\n// or: char === char.toLowerCase() && char !== char.toUpperCase()',
+    description: 'Check if character is lowercase (a–z).',
+    returnType: 'boolean',
+    details: 'Regex /^[a-z]$/ for one lowercase letter. toLowerCase/toUpperCase works for Unicode.',
+  },
+  {
+    category: 'JS Regex & Character',
+    item: 'isAlNum(char)',
+    syntax: 'function isAlNum(char) {\n  return /^[a-zA-Z0-9]$/.test(char);\n}\n// or: /^[\\w]$/.test(char) — \\w is [a-zA-Z0-9_]',
+    description: 'Check if character is alphanumeric (letter or digit).',
+    returnType: 'boolean',
+    details: '\\w in regex also includes underscore. Use [a-zA-Z0-9] for strict alphanumeric only.',
+  },
+  {
+    category: 'JS Regex & Character',
+    item: 'isSymbol(char)',
+    syntax: 'function isSymbol(char) {\n  return /^[!@#$]$/.test(char);\n}',
+    description: 'Check if character is one of the allowed symbols (!, @, #, $).',
+    returnType: 'boolean',
+    details: 'Returns true only for !, @, #, $. Add more symbols in the character class if needed (e.g. [!@#$%^&*]). Useful for password strength.',
+  },
+
   // ========== Math & Number ==========
   {
     category: 'Math & Number',

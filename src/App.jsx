@@ -16,6 +16,7 @@ const JS_SUBCATEGORIES = [
   { id: 'JS Variables', label: 'Variables' },
   { id: 'JS Arrays & Strings', label: 'Arrays & Strings' },
   { id: 'JS Loops', label: 'Loops' },
+  { id: 'JS Regex & Character', label: 'Regex & Character' },
   { id: 'Math & Number', label: 'Math & Number' },
   { id: 'Algorithm', label: 'Algorithm' },
 ]
@@ -58,7 +59,7 @@ function filterData(data, query, mainCategory, subcategoryOrTag, algorithmTypeFi
     }
   } else if (mainCategory === 'JavaScript') {
     filtered = filtered.filter((item) =>
-      ['JS Types & Quirks', 'JS Variables', 'JS Arrays & Strings', 'JS Loops', 'Math & Number', 'Algorithm'].includes(item.category)
+      ['JS Types & Quirks', 'JS Variables', 'JS Arrays & Strings', 'JS Loops', 'JS Regex & Character', 'Math & Number', 'Algorithm'].includes(item.category)
     )
   } else if (mainCategory === 'HTML' && subcategoryOrTag) {
     filtered = filtered.filter((item) => item.category === 'HTML' && item.tag === subcategoryOrTag)
